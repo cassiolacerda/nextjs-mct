@@ -6,7 +6,9 @@ import dayjs from "dayjs";
 import Result from "../components/Result";
 import MCTForm from "../components/MCTForm";
 
-const URL = process.env.NEXT_PUBLIC_URL;
+const URL = process.env.NEXT_PUBLIC_VERCEL_URL
+  ? process.env.NEXT_PUBLIC_VERCEL_URL
+  : process.env.NEXT_PUBLIC_URL;
 
 const Home = ({ data }) => {
   const [results, setResults] = useState(data);
