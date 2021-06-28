@@ -6,10 +6,6 @@ import dayjs from "dayjs";
 import Result from "../components/Result";
 import MCTForm from "../components/MCTForm";
 
-const URL = process.env.NEXT_PUBLIC_VERCEL_URL
-  ? process.env.NEXT_PUBLIC_VERCEL_URL
-  : process.env.NEXT_PUBLIC_URL;
-
 const Home = ({ data }) => {
   const [results, setResults] = useState(data);
 
@@ -28,7 +24,9 @@ const Home = ({ data }) => {
   const getDataForPreviousDay = async () => {
     let currentDate = dayjs(results.date);
     let newDate = currentDate.subtract(1, "day").format("YYYY-MM-DDTHH:mm:ss");
-    const res = await fetch(`${URL}/api/daily?date=${newDate}`);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}/api/daily?date=${newDate}`
+    );
     const json = await res.json();
     setResults(json);
   };
@@ -36,13 +34,15 @@ const Home = ({ data }) => {
   const getDataForNextDay = async () => {
     let currentDate = dayjs(results.date);
     let newDate = currentDate.add(1, "day").format("YYYY-MM-DDTHH:mm:ss");
-    const res = await fetch(`${URL}/api/daily?date=${newDate}`);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}/api/daily?date=${newDate}`
+    );
     const json = await res.json();
     setResults(json);
   };
 
   const updateMacros = async () => {
-    await fetch(`${URL}/api/daily`, {
+    await fetch(`${process.env.NEXT_PUBLIC_URL}/api/daily`, {
       method: "post",
       body: JSON.stringify(results),
     });
@@ -107,7 +107,7 @@ const Home = ({ data }) => {
 };
 
 export async function getServerSideProps(context) {
-  const res = await fetch(`${URL}/api/daily`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/daily`);
   const json = await res.json();
   return {
     props: {
